@@ -32,13 +32,15 @@ func LatestVersions(releases []*semver.Version, minVersion *semver.Version) []*s
 	var versionSlice []*semver.Version
 	// This is just an example structure of the code, if you implement this interface, the test cases in main_test.go are very easy to run
 	for _, version := range releases {
-		//fmt.Println("Prerelease: ", (*version).PreRelease, "Metadata", (*version).Metadata)
 		if !(version).LessThan(*minVersion) { //logically equivalent to minVersion.lessThanOrEqual(*version)
 			toBeAppended := true
 			for _, retVersion := range versionSlice {
 				if (*version).Major == (*retVersion).Major && (*version).Minor == (*retVersion).Minor {
 					toBeAppended = false
-					if (*version).Patch > (*retVersion).Patch {
+					if (*version).Patch > (*retVersion).Patch { //handling the case when Patch versions are different
+						*retVersion = *version
+						break
+					} else if (*version).Patch == (*retVersion).Patch && (*version).PreRelease > (*retVersion).PreRelease { //handling the case for Pre releases
 						*retVersion = *version
 						break
 					}
@@ -103,5 +105,4 @@ func main() {
 		fmt.Printf("latest versions of %s/%s: %s", repo[0], repo[1], versionSlice)
 		fmt.Println()
 	}
-
 }

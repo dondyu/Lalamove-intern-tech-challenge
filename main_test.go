@@ -67,10 +67,20 @@ func TestLatestVersions(t *testing.T) {
 			expectedResult: []string{"1.14.5", "1.12.3", "1.9.7", "1.8.4"},
 			minVersion:     semver.New("1.8.3"),
 		},
-		//Patches with letters
+		//Tests for pre-releases
 		{
-			versionSlice:   []string{"1.5.0-alpha.1", "1.5.4", "1.6.3-alpha.1", "1.6.3"},
-			expectedResult: []string{"1.6.3-alpha.1", "1.5.4"},
+			versionSlice:   []string{"1.5.0-alpha.1", "1.5.4", "1.6.3-alpha.2", "1.6.3-alpha.1", "1.6.3"},
+			expectedResult: []string{"1.6.3-alpha.2", "1.5.4"},
+			minVersion:     semver.New("1.5.0"),
+		},
+		{
+			versionSlice:   []string{"1.5.0-alpha.2", "1.5.0-beta.1", "1.6.3-alpha.2", "1.6.3-alpha.beta", "1.6.3"},
+			expectedResult: []string{"1.6.3-alpha.beta", "1.5.0-beta.1"},
+			minVersion:     semver.New("1.5.0"),
+		},
+		{
+			versionSlice:   []string{"1.5.0-beta.1", "1.5.0-rc", "1.6.3-rc.2", "1.6.4", "1.6.3"},
+			expectedResult: []string{"1.6.4", "1.5.0-rc"},
 			minVersion:     semver.New("1.5.0"),
 		},
 	}
