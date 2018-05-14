@@ -14,7 +14,7 @@ import (
 	"github.com/google/go-github/github"
 )
 
-//Functions for sorting versions in Descending order
+//Functions for sorting versions in descending order
 type descendingVersions []*semver.Version
 
 func (x descendingVersions) Len() int {
@@ -50,7 +50,6 @@ func LatestVersions(releases []*semver.Version, minVersion *semver.Version) []*s
 		}
 	}
 	sort.Sort(descendingVersions(versionSlice))
-	//fmt.Println(versionSlice)
 	return versionSlice
 }
 
@@ -99,7 +98,7 @@ func main() {
 			}
 			allReleases[i] = semver.New(versionString)
 		}
-		fmt.Println(allReleases)
+		//fmt.Println(allReleases)
 		versionSlice := LatestVersions(allReleases, minVersion)
 		fmt.Printf("latest versions of %s/%s: %s", repo[0], repo[1], versionSlice)
 		fmt.Println()
